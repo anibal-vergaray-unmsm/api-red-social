@@ -18,7 +18,7 @@ var PostSchema = Schema({
         }
     ],
     created_at: {
-        type: String
+        type: Date
     }
 });
 

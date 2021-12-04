@@ -8,8 +8,8 @@ var CommentSchema = Schema({
         type: String,
         required: [true, 'El comentario es requerido'],
     },
-    commentDate: {
-        type: String,
+    created_at: {
+        type: Date
     },
     userCommentId: { 
         type: Schema.ObjectId, ref: 'User',
