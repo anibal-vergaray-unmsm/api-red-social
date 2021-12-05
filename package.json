@@ -11,6 +11,7 @@
     "author": "Anibal Vergaray",
     "license": "MIT",
     "dependencies": {
+        "axios": "^0.24.0",
         "bcrypt-nodejs": "0.0.3",
         "body-parser": "^1.19.0",
         "connect-multiparty": "^2.2.0",

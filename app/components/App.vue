@@ -1,7 +1,6 @@
-
 <template>
     <div>
-        <nav class="navbar navbar-toggleable-md navbar-light bg-white fixed-top mediumnavigation">
+        <nav v-if="isNavbarVisible" class="navbar navbar-toggleable-md navbar-light bg-white fixed-top mediumnavigation">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -13,7 +12,7 @@
                 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <router-link class="nav-link" to="/home">Home</router-link> 
+                            <router-link class="nav-link" to="/home">{{route}}Home</router-link> 
                         </li>
                         <li class="nav-item">
                             <router-link class="nav-link" to="/prueba">About</router-link>
@@ -36,11 +35,11 @@
     </div>
 </template>
         
-
 <script>
     export default{
         data(){
             return {
+                isNavbarVisible: this.$route.meta.requiresAuth
             }
         }
     }
