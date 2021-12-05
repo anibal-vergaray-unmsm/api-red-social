@@ -21,7 +21,7 @@ function savePost(req, res) {
         })
     }
     else{
-        return res.status(500).json({ message: 'Error en la petición' });
+        return res.status(500).json({ message: 'Campos incompletos' });
     }
 }
 

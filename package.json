@@ -4,7 +4,8 @@
     "description": "BackEnd para red social",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon index.js",
+        "dev": "nodemon index.js",
+        "webpack": "webpack --mode development --watch",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Anibal Vergaray",
@@ -21,6 +22,13 @@
         "mongoose-pagination": "^1.0.0"
     },
     "devDependencies": {
-        "nodemon": "^2.0.6"
+        "babel-loader": "^8.2.3",
+        "babel-preset-env": "^1.7.0",
+        "nodemon": "^2.0.6",
+        "vue": "^2.6.14",
+        "vue-loader": "^15.9.8",
+        "vue-template-compiler": "^2.6.14",
+        "webpack": "^5.64.4",
+        "webpack-cli": "^4.9.1"
     }
 }
