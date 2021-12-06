@@ -26,7 +26,11 @@ function savePost(req, res) {
 }
 
 function getPosts(req, res) {
-    return Post.find({}, function(err, posts){
+    return Post.aggregate([
+        {$lookup:{from: 'users',localField: 'user_id',foreignField: '_id',as: 'user'}},
+        {$sort:{ created_at : -1 }},
+        ], 
+        function(err, posts){
         if (err) {
             return res.status(500).json({ message: 'Error en la petición' });
         }
@@ -37,7 +41,7 @@ function getPosts(req, res) {
 function getPostByUserId(req, res) {
     
     var userId = req.params.userId;
-    return Post.find({"user_id": userId}).sort({created_at:'desc'}).exec(function(err, posts){
+    return Post.find({"user_id": userId}).sort({created_at:-1}).exec(function(err, posts){
         if (err) {
             return res.status(500).json({ message: 'Error en la petición' });
         }
