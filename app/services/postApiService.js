@@ -25,3 +25,16 @@ export async function getPosts() {
       return [];
     }
   }
+
+  export async function likePost(postId, params) {
+    const url = `/posts/like/${postId}`;
+  
+    try {
+      const response = await axios.post(url , params);
+      return response.status === 500 ? {} : response.data;
+    }
+    catch (error) {
+      console.log(error);
+      return {};
+    }
+  }

@@ -29,6 +29,10 @@ function getPosts(req, res) {
     return Post.aggregate([
         {$lookup:{from: 'users',localField: 'user_id',foreignField: '_id',as: 'user'}},
         {$sort:{ created_at : -1 }},
+        {$project: {
+            _id: 1, text : 1, created_at : 1, user : 1,
+            numberOfLikes: { $cond: { if: { $isArray: "$likes" }, then: { $size: "$likes" }, else: 0} }
+        }}
         ], 
         function(err, posts){
         if (err) {
@@ -49,8 +53,37 @@ function getPostByUserId(req, res) {
     });
 }
 
+function likePost (req, res) {
+    const postId = req.params.postId;
+    const userId = req.body.userId;
+
+    Post.findById(postId, (err, post) => {
+        if (err) {
+            return res.status(500).send({ message: 'Error en la peticion' });
+        }
+        if (!post) {
+            return res.status(404).send({ message: 'Id no encontrado' });
+        } else {
+            if(post.likes.includes(userId)){
+                return res.status(200).send({ message: 'Ya realizaste un like' });
+            }
+            else{
+                Post.findByIdAndUpdate(postId,{ "$push": { "likes": userId} }, (err, post) => {
+                    if (err) {
+                        return res.status(500).send({ message: 'Error en la peticion' });
+                    }
+                    else{
+                        return res.status(200).send({ message: 'Like realizado' });
+                    }  
+                });
+            }
+        }
+    })
+}
+
 module.exports = {
     savePost,
     getPosts,
-    getPostByUserId
+    getPostByUserId,
+    likePost
 }
