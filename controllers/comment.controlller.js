@@ -17,7 +17,7 @@ function saveComment(req, res) {
             if(err){
                 return res.status(500).json({ message: 'Error en la petición' });
             }
-            return res.status(500).json(post);
+            return res.status(200).json({ message: 'Comentario guardado' });
         })
     }
     else{

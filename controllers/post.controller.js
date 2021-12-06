@@ -27,10 +27,16 @@ function savePost(req, res) {
 
 function getPosts(req, res) {
     return Post.aggregate([
-        {$lookup:{from: 'users',localField: 'user_id',foreignField: '_id',as: 'user'}},
+        { $lookup:{from: 'users',localField: 'user_id',foreignField: '_id',as: 'user' }},
+        { $unwind:"$user" }, 
+        { $lookup:{
+            from: 'comments',localField: '_id',foreignField: 'postId',
+            pipeline: [{$lookup:{from: 'users',localField: 'userCommentId',foreignField: '_id',as: 'user' }},{ $unwind:"$user" }],
+            as: 'comments' }
+        },
         {$sort:{ created_at : -1 }},
         {$project: {
-            _id: 1, text : 1, created_at : 1, user : 1,
+            _id: 1, text : 1, created_at : 1, user : 1,comments:1,
             numberOfLikes: { $cond: { if: { $isArray: "$likes" }, then: { $size: "$likes" }, else: 0} }
         }}
         ], 
@@ -44,8 +50,23 @@ function getPosts(req, res) {
 
 function getPostByUserId(req, res) {
     
-    var userId = req.params.userId;
-    return Post.find({"user_id": userId}).sort({created_at:-1}).exec(function(err, posts){
+    const userId = req.params.userId;
+    return Post.aggregate([
+        { $match: {
+            user_id: mongoose.Types.ObjectId(userId)
+        }},
+        { $lookup:{
+            from: 'comments',localField: '_id',foreignField: 'postId',
+            pipeline: [{$lookup:{from: 'users',localField: 'userCommentId',foreignField: '_id',as: 'user' }},{ $unwind:"$user" }],
+            as: 'comments' }
+        },
+        {$sort:{ created_at : -1 }},
+        {$project: {
+            _id: 1, text : 1, created_at : 1,comments:1,user_id:1,
+            numberOfLikes: { $cond: { if: { $isArray: "$likes" }, then: { $size: "$likes" }, else: 0} }
+        }}
+        ],
+        function(err, posts){
         if (err) {
             return res.status(500).json({ message: 'Error en la petición' });
         }
