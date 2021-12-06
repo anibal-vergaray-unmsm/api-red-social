@@ -109,105 +109,48 @@ function getUsers(req, res) {
     });
 }
 
+//Actualizar usuario
+function updateUser (req, res) {
+    const userId = req.params.id;
+    const params = req.body;
+    const file = req.file;
+    let userUpdated = {
+        name : params.name,
+        surname : params.surname,
+        email: params.email
+    };
 
-//ACTUALIZAR UN USUARIO
-function updateUser(req, res) {
+    if (file) {
+        const ext = path.extname(file.originalname).toLowerCase();
+        const targetPath = path.resolve(`./uploads/users/${file.filename}${ext}`);
 
-    var userId = req.params.id;
-    var update = req.body;
-
-
-    //borrar la propiedad password
-    delete update.password; //borra la propiedad password del objeto
-
-    if (userId != req.user.sub) { //Si userId de la URL es diferente al del usuario autenticado
-        return res.status(500).send({ message: 'No tienes permiso para actualizar los datos del usuario' });
+        if (ext == '.png' || ext == '.jpg' || ext == '.jpeg' || ext == '.gif') {
+            userUpdated = {...userUpdated, image: file.filename+ext}
+            fs.renameSync(file.path, targetPath);
+        } else {
+            fs.unlink(file.path);
+        }
     }
 
-    User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdated) => { //para que nos devuelva el objeto actualizado {new:true}
+    User.findByIdAndUpdate(userId, userUpdated, (err, user) => {
         if (err) {
             return res.status(500).send({ message: 'Error en la peticion' });
         }
-        if (!userUpdated) {
+        if (!user) {
             return res.status(404).send({ message: 'No se ha podido actualizar el usuario' });
         } else {
-            return res.status(200).send({ user: userUpdated });
-        }
-    });
-
-}
-
-//SUBIR ARCHIVOS DE IMAGEN/AVATAR DE USUARIO
-function uploadImage(req, res) {
-    var userId = req.params.id;
-
-    if (req.files) {
-        var file_path = req.files.image.path;
-        console.log(file_path);
-        var file_split = file_path.split('\\'); //cortar la dirección
-        console.log(file_split);
-        var file_name = file_split[2];
-        console.log(file_name);
-
-        var ext_split = file_name.split('\.');
-        console.log(ext_split);
-        var file_ext = ext_split[1];
-        console.log(file_ext);
-
-        if (userId != req.user.sub) { //Si userId de la URL es diferente al del usuario autenticado
-            return removeFilesOfUploads(res, file_path, 'No tienes permiso para actualizar los datos del usuario');
-        }
-
-        if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
-            //Actualizar documento de usuario logueado
-            User.findByIdAndUpdate(userId, { image: file_name }, { new: true }, (err, userUpdated) => {
-                if (err) {
-                    return res.status(500).send({ message: 'Error en la peticion' });
-                }
-                if (!userUpdated) {
-                    return res.status(404).send({ message: 'No se ha podido actualizar el usuario' });
-                } else {
-                    return res.status(200).send({ user: userUpdated });
-                }
-            })
-
-        } else {
-            //en caso la extensión sea mala
-            return removeFilesOfUploads(res, file_path, 'Extensión no válida');
-        }
-
-    } else {
-        return res.status(200).send({ message: 'No se han subido imagenes' });
-    }
-}
-
-function removeFilesOfUploads(res, file_path, message) {
-    fs.unlink(file_path, (err) => { //unlink para eliminar - borrado de fichero
-        return res.status(200).send({ message: message });
-    });
-}
-
-function getImageFile(req, res) {
-    var image_file = req.params.imageFile;
-    var path_file = './uploads/users/' + image_file;
-
-    fs.exists(path_file, (exists) => {
-        if (exists) { //si existe
-            res.sendFile(path.resolve(path_file));
-        } else {
-            res.status(200).send({ message: 'No existe la imagen' });
+            if(userUpdated.image)
+                fs.unlinkSync("uploads\\users\\"+user.image);
+            
+            return res.status(200).send({ message: 'Actualizado' });
         }
     })
 }
 
-
-//para exportar las funciones
 module.exports = {
     saveUser,
     loginUser,
     getUser,
     getUsers,
-    updateUser,
-    uploadImage,
-    getImageFile
+    updateUser
 }

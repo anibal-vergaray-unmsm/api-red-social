@@ -1,20 +1,27 @@
 import Vue from "vue";
 import VueRouter from 'vue-router'
 import Home from './components/Home.vue'
-import Prueba from './components/Prueba.vue'
+import Perfil from './components/Perfil.vue'
 import Login from './components/Login.vue'
 import Registro from './components/Registro.vue'
+import Editar from './components/Editar.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-    {   path: '/prueba', 
-        component: Prueba,    
+    {   path: '/perfil', 
+        component: Perfil,    
         meta: { 
             requiresAuth: true 
         }
     },
-    {   path: '/home', 
+    {   path: '/editarPerfil', 
+        component: Editar,    
+        meta: { 
+            requiresAuth: true 
+        }
+    },
+    {   path: '/', 
         component: Home,
         meta: { 
             requiresAuth: true 

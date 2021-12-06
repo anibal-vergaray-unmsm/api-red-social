@@ -2,26 +2,24 @@
 
 var express = require('express');
 
-var { saveUser, loginUser, getUser, getUsers, updateUser, uploadImage, getImageFile } = require('../controllers/user.controller');
+var { saveUser, loginUser, getUser, getUsers, updateUser } = require('../controllers/user.controller');
 
 var api = express.Router(); // metodos http
 
-var multipart = require('connect-multiparty');
-var md_upload = multipart({ uploadDir: './uploads/users' })
+const multer = require("multer");
+const upload = multer({ dest: './uploads/users' });
 
 var baseEndpoint = '/users';
 
 // get
 api.get(baseEndpoint + '/:id', getUser); //compruebo si el usuario autentcado sigue al usuario pasado por parámetro "id"
-api.get(baseEndpoint + '/:page?', getUsers); // paginable
-api.get(baseEndpoint + '?image=:imageFile', getImageFile);
+api.get(baseEndpoint, getUsers); 
 
 // post
 api.post('/login', loginUser);   
 api.post(baseEndpoint, saveUser);
-api.post(baseEndpoint + '/upload-image/:id', [md_upload], uploadImage); // subir foto
 
 // put
-api.put(baseEndpoint + '/:id', updateUser);
+api.put(baseEndpoint + '/:id',upload.single("image"), updateUser);
 
 module.exports = api;
