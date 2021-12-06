@@ -15,10 +15,15 @@
                             <router-link class="nav-link" to="/">Home</router-link> 
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/perfil">About</router-link>
+                            <router-link class="nav-link" to="/perfil">Buscar</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/perfil">Profile</router-link>
+                            <router-link class="nav-link" to="/perfil">Perfil</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-danger btn-sm mt-1" @click="logout">
+                                <i class="fa fa-btn fa-sign-in"></i> Salir
+                            </button>
                         </li>
                     </ul>
 
@@ -34,4 +39,14 @@
         </div>
     </div>
 </template>
-        
+
+<script>
+    export default{
+        methods: {
+            logout() {
+                localStorage.removeItem("userId");
+                this.$router.push('/login');
+            }
+        }
+    }
+</script>  
