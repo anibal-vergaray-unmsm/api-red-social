@@ -1,6 +1,6 @@
 # Red Social
 
-# Pre-requisites ✅
+# Pre-requisitos ✅
 - MongoDB
 
 # Variables a Configurar
