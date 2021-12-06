@@ -37,7 +37,7 @@ function getPosts(req, res) {
 function getPostByUserId(req, res) {
     
     var userId = req.params.userId;
-    return Post.find({"user_id": userId}, function(err, posts){
+    return Post.find({"user_id": userId}).sort({created_at:'desc'}).exec(function(err, posts){
         if (err) {
             return res.status(500).json({ message: 'Error en la petición' });
         }
