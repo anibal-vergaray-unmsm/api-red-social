@@ -25,3 +25,16 @@ export async function updateUser(userId, data) {
     return null;
   }
 }
+
+export async function getUsers(params) {
+  const url = `/users?search=${params.search}`;
+
+  try {
+    const response = await axios.get(url);
+    return response.status === 500 ? {} : response.data;
+  }
+  catch (error) {
+    console.log(error);
+    return {};
+  }
+}

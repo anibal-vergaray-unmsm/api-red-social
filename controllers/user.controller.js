@@ -100,8 +100,20 @@ function getUser(req, res) {
 
 //Devolver un listado de usuarios paginado
 function getUsers(req, res) {
-
-    return User.find({}, function(err, users){
+    const search = req.query.search;
+    return User.find({
+        $or: [
+            { name: {
+                $regex: search,
+                $options: 'i'
+                }   },
+            { surname: {
+                $regex: search,
+                $options: 'i'
+                }   },
+          ]
+        }
+      , function(err, users){
         if (err) {
             return res.status(500).json({ message: 'Error en la petición' });
         }

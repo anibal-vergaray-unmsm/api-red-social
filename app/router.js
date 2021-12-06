@@ -5,6 +5,7 @@ import Perfil from './components/Perfil.vue'
 import Login from './components/Login.vue'
 import Registro from './components/Registro.vue'
 import Editar from './components/Editar.vue'
+import Perfiles from './components/Perfiles.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,12 @@ const routes = [
     },
     {   path: '/', 
         component: Home,
+        meta: { 
+            requiresAuth: true 
+        }
+    },
+    {   path: '/perfiles', 
+        component: Perfiles,
         meta: { 
             requiresAuth: true 
         }

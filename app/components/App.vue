@@ -11,11 +11,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <router-link class="nav-link" to="/">Home</router-link> 
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" to="/">Buscar</router-link>
+                            <router-link class="nav-link" to="/perfiles">Ver Perfiles</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link class="nav-link" to="/perfil">Perfil</router-link>
