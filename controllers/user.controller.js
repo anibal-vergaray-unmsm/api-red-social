@@ -151,9 +151,10 @@ function updateUser (req, res) {
         if (!user) {
             return res.status(404).send({ message: 'No se ha podido actualizar el usuario' });
         } else {
-            if(userUpdated.image)
+            if(user.image){
                 fs.unlinkSync("uploads\\users\\"+user.image);
-            
+                console.log("entro")
+            }
             return res.status(200).send({ message: 'Actualizado' });
         }
     })

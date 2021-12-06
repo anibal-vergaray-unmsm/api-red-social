@@ -2,17 +2,18 @@
 
 var mongoose = require('mongoose');
 var app = require('./app'); 
-var port = 3000;
+const PORT = 3000;
+const MONGODB_URI = 'mongodb://localhost/red-social' ;
 
 //Conexión mediante promesas
 mongoose.set('useFindAndModify', false);
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/red-social', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("Conexión realizada correctamente!!");
 
         //Crear servidor
-        app.listen(port, () => {
+        app.listen(PORT, () => {
             console.log("Servidor corriendo en http://localhost:3000");
         })
     })

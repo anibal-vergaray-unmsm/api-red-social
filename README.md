@@ -1,45 +1,20 @@
-# imgShare
+# Red Social
 
-imgShare is a web application to share images, comments, and more.
+# Pre-requisites ✅
+- MongoDB
 
-![](docs/screenshot1.png)
+# Variables a Configurar
 
-# Environment Variables
+En el archivo red-social/index.js:
 
-- `MONGODB_URI`, the mongodb database uri
-- `PORT` the http server port. By default is `3000`
+- `MONGODB_URI`, URI de la base de datos de mongoDB
+- `PORT` Puerto del servidor HTTP. Por defecto es `3000`
 
-# Installation
+# Instalacion
 
 ```
-git clone https://github.com/FaztTech/nodejs-imgshare
-cd nodejs-imagshare
+git clone https://github.com/anibal-vergaray-unmsm/red-social
+cd red-social
 npm install
-npm run build
-npm start
+npm run dev
 ```
-
-# Installation with docker-compose (Recommended)
-
-```
-docker-compose up
-```
-
-# Tutorials
-
-- [Youtube (es)](https://youtu.be/TqC3e8nBycg)
-
-# Improvements for the Future
-
-- [x] add user authentication
-- [ ] Update docker compose
-- [ ] add input validation
-- [ ] add cloud storage for assets
-- [ ] update public/js/scripts.js with vanilla js
-- [ ] provides an API for client consumption
-- [ ] hide /profile view from not authenticated users
-- [ ] validate routes just for authenticated users
-
-## Resources
-
-- [Colors](https://www.color-hex.com/color-palette/26292)
