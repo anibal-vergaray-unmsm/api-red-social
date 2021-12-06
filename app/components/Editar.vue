@@ -62,6 +62,7 @@
                 surname: "",
                 email : "",
                 file: "",
+                userId: localStorage.getItem("userId")
             }
         },
         created(){
@@ -69,8 +70,7 @@
         },
         methods: {
             async getUserById() {
-                const userId = localStorage.getItem("userId");
-                const user = await getUserById(userId);
+                const user = await getUserById(this.userId);
 
                 this.name = user.name;
                 this.surname= user.surname;
@@ -78,7 +78,6 @@
             },
             async handleSubmit(e) {
                 e.preventDefault()
-                const userId = localStorage.getItem("userId");
                 const formData = new FormData();
 
                 formData.append("image", this.file);
@@ -86,7 +85,7 @@
                 formData.append("surname", this.surname);
                 formData.append("email", this.email);
 
-                const response = await updateUser(userId,formData);
+                const response = await updateUser(this.userId,formData);
 
                 if (response) {
                     alert("Usuario Modificado")
