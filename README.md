@@ -7,7 +7,7 @@
 
 En el archivo red-social/index.js:
 
-- `MONGODB_URI`, URI de la base de datos de mongoDB
+- `MONGODB_URI`, URI de la base de datos MongoDB
 - `PORT` Puerto del servidor HTTP. Por defecto es `3000`
 
 # Instalacion
